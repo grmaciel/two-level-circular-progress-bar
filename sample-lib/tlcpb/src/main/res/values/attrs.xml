@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="RoundProgressBar">
+        <attr name="tlcp_strokeWidth" format="dimension"/>
+        <attr name="tlcp_drawable" format="reference"/>
+        <attr name="tlcp_progress_color" format="reference"/>
+        <attr name="tlcp_progress2_color" format="reference"/>
+        <attr name="tlcp_bg_color" format="reference"/>
+        <attr name="tlcp_progress" format="integer"/>
+        <attr name="tlcp_progress2" format="integer"/>
+    </declare-styleable>
+</resources>
