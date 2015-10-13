@@ -2,7 +2,7 @@
 A simple widget extending android.view.View that allows a circular progress bar, with multiple customizations and also a possibility to add a image to 
 its center.
 
-![Application screenshot]()
+![Application screenshot](https://github.com/grmaciel/two-level-circular-progress-bar/blob/master/img/screen.png)
 
 ## License
 Use it the way you want it :)
