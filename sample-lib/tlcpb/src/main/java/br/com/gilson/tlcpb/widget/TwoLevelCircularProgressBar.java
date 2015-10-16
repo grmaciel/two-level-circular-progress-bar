@@ -2,6 +2,7 @@ package br.com.gilson.tlcpb.widget;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,7 +11,9 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.os.Build;
+import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.View;
 
 import br.com.gilson.tlcpb.R;
@@ -19,7 +22,7 @@ import br.com.gilson.tlcpb.R;
  * Created by gilson.maciel on 13/10/2015.
  */
 public class TwoLevelCircularProgressBar extends View {
-    private static final float STROKE_WIDTH = 20.0f;
+    private static float STROKE_WIDTH = 20.0f;
     private static final int BACKGROUND_COLOR = Color.LTGRAY;
 
     private RectF mCircleBounds = new RectF();
@@ -31,12 +34,14 @@ public class TwoLevelCircularProgressBar extends View {
     private Paint mPaintBackground = new Paint(Paint.ANTI_ALIAS_FLAG);
     private Paint mPaintProgress = new Paint(Paint.ANTI_ALIAS_FLAG);
     private Paint mPaintProgress2 = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private Paint mPaintText = new Paint(Paint.ANTI_ALIAS_FLAG);
     private int mBackgroundColor;
     private int mProgressColor;
     private int mProgressColor2;
     private Bitmap mBmpIcon;
     private int mProgressValue = 0;
     private int mProgress2Value = 0;
+    private String text;
 
     public TwoLevelCircularProgressBar(Context context) {
         super(context);
@@ -83,9 +88,19 @@ public class TwoLevelCircularProgressBar extends View {
     }
 
     private void setupPaints() {
+        float fontSize = 14;
+        Resources r = getResources();
+        float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, fontSize,
+                r.getDisplayMetrics());
+
+        STROKE_WIDTH = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10.0f,
+                r.getDisplayMetrics());
+
         mPaintBackground.setColor(mBackgroundColor);
         mPaintProgress.setColor(mProgressColor);
         mPaintProgress2.setColor(mProgressColor2);
+        mPaintText.setColor(Color.GRAY);
+        mPaintText.setTextSize(px);
 
         setupDefaultPaint(mPaintBackground);
         setupDefaultPaint(mPaintProgress);
@@ -146,6 +161,26 @@ public class TwoLevelCircularProgressBar extends View {
                     mCircleBounds.top + wH - mBmpIcon.getHeight() / 2,
                     mPaintBackground);
         }
+
+        if (!TextUtils.isEmpty(this.text)) {
+            this.drawMultilineText(canvas);
+        }
+    }
+
+    private void drawMultilineText(Canvas canvas) {
+        String[] textSplit = text.split("\n");
+        float wH = mCircleBounds.width() / 2;
+
+        for (int i = 0; i < textSplit.length; i++) {
+            String txt = textSplit[i];
+            float wT = mPaintText.measureText(txt);
+
+            float pX = mCircleBounds.left + wH - wT / 2;
+            float pY = mCircleBounds.top + mPaintText.getFontSpacing() + 20
+                    + mPaintText.getFontSpacing() * i;
+
+            canvas.drawText(txt, pX, pY, mPaintText);
+        }
     }
 
     @Override
@@ -162,16 +197,30 @@ public class TwoLevelCircularProgressBar extends View {
     }
 
     public void setProgressValue(int mProgressValue) {
+        validateProgressValue(mProgressValue);
+        this.mProgressValue = getProgressValue(mProgressValue);
+        postInvalidate();
+    }
+
+    public void setProgressValue2(int mProgressValue) {
+        validateProgressValue(mProgressValue);
+        this.mProgress2Value = getProgressValue(mProgressValue);
+        postInvalidate();
+    }
+
+    private void validateProgressValue(int mProgressValue) {
         if (mProgressValue < 0 || mProgressValue > 100) {
             throw new IllegalArgumentException("Value must be between 0 and 100");
         }
-
-        this.mProgressValue = getProgressValue(mProgressValue);
-
-        this.postInvalidate();
     }
+
 
     private int getProgressValue(int mProgressValue) {
         return 360 * mProgressValue / 100;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+        postInvalidate();
     }
 }
