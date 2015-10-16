@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">TwoLevelCircularProgressBar</string>
+    <string name="my_text">This is\n my\n text\n</string>
 </resources>

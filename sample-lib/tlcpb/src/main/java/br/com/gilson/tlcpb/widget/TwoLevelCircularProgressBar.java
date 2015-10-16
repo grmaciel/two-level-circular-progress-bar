@@ -22,9 +22,8 @@ import br.com.gilson.tlcpb.R;
  * Created by gilson.maciel on 13/10/2015.
  */
 public class TwoLevelCircularProgressBar extends View {
-    private static float STROKE_WIDTH = 20.0f;
     private static final int BACKGROUND_COLOR = Color.LTGRAY;
-
+    private static float STROKE_WIDTH = 20.0f;
     private RectF mCircleBounds = new RectF();
     private RectF mCircleProgressBounds = new RectF();
 
@@ -41,7 +40,8 @@ public class TwoLevelCircularProgressBar extends View {
     private Bitmap mBmpIcon;
     private int mProgressValue = 0;
     private int mProgress2Value = 0;
-    private String text;
+    private float mFontSize = 14;
+    private String mText;
 
     public TwoLevelCircularProgressBar(Context context) {
         super(context);
@@ -83,17 +83,26 @@ public class TwoLevelCircularProgressBar extends View {
         mProgress2Value = getProgressValue(ta.getInteger(R.styleable.RoundProgressBar_tlcp_progress2,
                 mProgress2Value));
 
+        mFontSize = ta.getDimension(R.styleable.RoundProgressBar_tlcp_textSize,
+                mFontSize);
+
+        int textResource = ta
+                .getResourceId(R.styleable.RoundProgressBar_tlcp_text, -1);
+        if (textResource != -1) {
+            mText = getResources().getString(textResource);
+        }
+
         setupPaints();
         ta.recycle();
     }
 
     private void setupPaints() {
-        float fontSize = 14;
         Resources r = getResources();
-        float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, fontSize,
+        float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, mFontSize,
                 r.getDisplayMetrics());
 
-        STROKE_WIDTH = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10.0f,
+        STROKE_WIDTH = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+                mStrokeWidth,
                 r.getDisplayMetrics());
 
         mPaintBackground.setColor(mBackgroundColor);
@@ -162,13 +171,13 @@ public class TwoLevelCircularProgressBar extends View {
                     mPaintBackground);
         }
 
-        if (!TextUtils.isEmpty(this.text)) {
+        if (!TextUtils.isEmpty(this.mText)) {
             this.drawMultilineText(canvas);
         }
     }
 
     private void drawMultilineText(Canvas canvas) {
-        String[] textSplit = text.split("\n");
+        String[] textSplit = mText.split("\n");
         float wH = mCircleBounds.width() / 2;
 
         for (int i = 0; i < textSplit.length; i++) {
@@ -220,7 +229,7 @@ public class TwoLevelCircularProgressBar extends View {
     }
 
     public void setText(String text) {
-        this.text = text;
+        this.mText = text;
         postInvalidate();
     }
 }

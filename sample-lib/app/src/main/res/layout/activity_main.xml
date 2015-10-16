@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -13,37 +12,52 @@
     tools:context=".MainActivity">
 
     <br.com.gilson.tlcpb.widget.TwoLevelCircularProgressBar
-        android:id="@+id/circulo1"
+        android:id="@+id/progress1"
         android:layout_width="100dp"
         android:layout_height="100dp"
         app:tlcp_progress="45"
         app:tlcp_progress_color="@color/blue"
-        app:tlcp_strokeWidth="15dp"/>
+        app:tlcp_strokeWidth="15dp" />
 
     <br.com.gilson.tlcpb.widget.TwoLevelCircularProgressBar
-        android:id="@+id/circulo2"
+        android:id="@+id/progress2"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_marginLeft="20dp"
-        android:layout_toRightOf="@+id/circulo1"
+        android:layout_toRightOf="@+id/progress1"
         app:tlcp_drawable="@drawable/ic_location"
         app:tlcp_progress="65"
         app:tlcp_progress2="80"
         app:tlcp_progress2_color="@color/lt_purple"
         app:tlcp_progress_color="@color/green"
-        app:tlcp_strokeWidth="10dp"/>
+        app:tlcp_strokeWidth="10dp" />
 
     <br.com.gilson.tlcpb.widget.TwoLevelCircularProgressBar
-        android:id="@+id/circulo3"
+        android:id="@+id/progress3"
         android:layout_width="140dp"
         android:layout_height="140dp"
-        android:layout_below="@id/circulo2"
-        android:layout_centerInParent="true"
+        android:layout_below="@id/progress2"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="20dp"
         app:tlcp_bg_color="@color/gray"
         app:tlcp_progress="80"
         app:tlcp_progress2="80"
         app:tlcp_progress_color="@color/red"
-        app:tlcp_strokeWidth="10dp"/>
+        app:tlcp_strokeWidth="10dp" />
+
+    <br.com.gilson.tlcpb.widget.TwoLevelCircularProgressBar
+        android:id="@+id/progress4"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        android:layout_below="@id/progress2"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@id/progress3"
+        app:tlcp_bg_color="@color/gray"
+        app:tlcp_progress="80"
+        app:tlcp_progress2="80"
+        app:tlcp_progress_color="@color/alerta_texto_negativo"
+        app:tlcp_strokeWidth="10dp"
+        app:tlcp_text="@string/my_text"
+        app:tlcp_textSize="10sp" />
 </RelativeLayout>
